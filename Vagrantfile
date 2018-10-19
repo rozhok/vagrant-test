@@ -3,6 +3,8 @@
 
 Vagrant.configure("2") do |config|
 
+  config.berkshelf.enabled = true
+
   config.vm.define 'apache-blue' do |nodeconfig|
     nodeconfig.vm.box = 'centos/7'
     nodeconfig.vm.hostname = 'apache-blue.box'
@@ -11,12 +13,11 @@ Vagrant.configure("2") do |config|
       chef.add_recipe 'apache-blue'
     end
 
-    memory = 256
     nodeconfig.vm.provider :virtualbox do |vb|
       vb.customize [
                        "modifyvm", :id,
                        "--cpuexecutioncap", "50",
-                       "--memory", memory.to_s,
+                       "--memory", 256.to_s,
                    ]
     end
   end
@@ -29,12 +30,11 @@ Vagrant.configure("2") do |config|
       chef.add_recipe 'apache-green'
     end
 
-    memory = 256
     nodeconfig.vm.provider :virtualbox do |vb|
       vb.customize [
                        "modifyvm", :id,
                        "--cpuexecutioncap", "50",
-                       "--memory", memory.to_s,
+                       "--memory", 256.to_s,
                    ]
     end
   end
@@ -47,12 +47,29 @@ Vagrant.configure("2") do |config|
       chef.add_recipe 'haproxy-lb'
     end
 
-    memory = 256
     nodeconfig.vm.provider :virtualbox do |vb|
       vb.customize [
                        "modifyvm", :id,
                        "--cpuexecutioncap", "50",
-                       "--memory", memory.to_s,
+                       "--memory", 256.to_s,
+                   ]
+    end
+  end
+
+  config.vm.define 'jenkins' do |nodeconfig|
+    nodeconfig.vm.box = 'centos/7'
+    nodeconfig.vm.hostname = 'jenkins.box'
+    nodeconfig.vm.network :private_network, ip: '192.168.100.104'
+    nodeconfig.vm.provision :chef_solo do |chef|
+      chef.add_recipe 'java'
+      chef.add_recipe 'jenkins-nice'
+    end
+
+    nodeconfig.vm.provider :virtualbox do |vb|
+      vb.customize [
+                       "modifyvm", :id,
+                       "--cpuexecutioncap", "50",
+                       "--memory", 1024.to_s,
                    ]
     end
   end
