@@ -16,6 +16,7 @@
 ### Assumptions
 
 - securing things is not required and out of scope
+- HTTPS is out of scope
 
 ### Prerequisites
 
