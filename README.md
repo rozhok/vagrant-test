@@ -13,6 +13,10 @@
 
 ## Solution
 
+### Assumptions
+
+- securing things is not required and out of scope
+
 ### Prerequisites
 
 - `vagrant plugin install vagrant-berkshelf`
@@ -23,9 +27,8 @@
 
 0. VirtualBox Vagrant provider is used and hardcoded into Vagrantfile.
 1. LB running on [http://192.168.100.103](http://192.168.100.103). Round-robin balancing is used.
-2. Jenkins running on [http://192.168.100.104](http://192.168.100.104)
-3. Jenkins credentials are admin/Passw0rd
-4. Solution cookbooks are placed in `cookbooks/apache-blue`, `cookbooks/apache-green`, `cookbooks/haproxy-lb` and `cookbooks/jenkins-nice` respectively. ~~I've should used Berksfile for proper dependency management but I've realised it when I've done everything.~~
+2. Jenkins running on [http://192.168.100.104:8080](http://192.168.100.104:8080)
+3. Solution cookbooks are placed in `cookbooks/apache-blue`, `cookbooks/apache-green`, `cookbooks/haproxy-lb` and `cookbooks/jenkins-nice` respectively. ~~I've should used Berksfile for proper dependency management but I've realised it when I've done everything.~~
 
 ## Notes and code smells
 
@@ -66,3 +69,5 @@
 17. Vagrant boxes are not ephemeral (or I didn't figured how to make them so), and if installation (for Jenkins) was screwed, you have to do `vagrant reload` and `vagrant provision` again and again. Took a huge chunk of time just to watch at the outputs.
 
 18. LB IP hardcoded to Jenkins job xml. Templating could be used here.
+
+19. Jenkins plugins list is hardcoded to the recipe because chef can't properly install plugins dependencies.
