@@ -20,11 +20,11 @@ jenkins_user 'admin' do
   password 'Passw0rd'
 end
 
-template xml do
+template 'xml' do
   source 'config.xml.erb'
 end
 
 # Create a jenkins job (default action is `:create`)
 jenkins_job 'vagrant-test' do
-  config xml
+  config 'xml'
 end

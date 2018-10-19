@@ -2,14 +2,14 @@
 
 ## Task
 
-1. Create vagrant file having 4 linux machines. (centos) [x]
+1. Create vagrant file having 4 linux machines. (centos)
 
 2. Machines should be provisioned automatically, with chef(preferably, some shell/ruby is ok too) and at the end of "vagrant up" command it should work as following:
 
-- 2 apache servers reporting “I’m server 1”/“I’am server 2” on default page. [x]
-- 1 HA proxy balancing 2 apache servers. [x]
-- Last machine should run Jenkins server with 1 job, which sends GET towards HA every hour, passing if "server 1”is active , failing if “server 2” is active. [ ] 
-- Job should run every hour in nights only, from 00:00 to 06:00 [x] 
+- 2 apache servers reporting “I’m server 1”/“I’am server 2” on default page.
+- 1 HA proxy balancing 2 apache servers.
+- Last machine should run Jenkins server with 1 job, which sends GET towards HA every hour, passing if "server 1”is active , failing if “server 2” is active. 
+- Job should run every hour in nights only, from 00:00 to 06:00 
 
 ## Solution
 
@@ -27,7 +27,7 @@
 3. Jenkins credentials are admin/Passw0rd
 4. Solution cookbooks are placed in `cookbooks/apache-blue`, `cookbooks/apache-green`, `cookbooks/haproxy-lb` and `cookbooks/jenkins-nice` respectively. ~~I've should used Berksfile for proper dependency management but I've realised it when I've done everything.~~
 
-## Notes ~~and code smells~~
+## Notes and code smells
 
 0. I was unable to quickly setup virtualbox on a remote Debian box so I've tried a Docker but Docker provider for vagrant didn't worked out-of-the-box so I went to installing all stuff on my Mac. Setting up all this env on mac os is real pain compared to Docker experience. Install VirtualBox from cask, install Vagrant, install chefdk. Wait while it will download image for centos, install some creepy vbox addons for proper mounting of host folders (what?), wait while all this stuff will spin up. Didn't liked it.
 
@@ -54,3 +54,5 @@
 11. LB IP is hardcoded to Jenkins job but it shouldn't.
 
 12. Jenkins password is hardcoded to cookbook.
+
+13. I've spent around of 5 hours of doing this, most of the time figuring out how to properly make Chef and Vagrant work together and waiting for `vagrant reload` and `vagrant provision` on my old laptop. I guess it could be done in way way easier using docker-compose. Cookbooks and integration between Chef and Vagrant are very poorly documented, as for me. They may be good for power users, but not for newcomers who have no idea of how to use those "recipes".
