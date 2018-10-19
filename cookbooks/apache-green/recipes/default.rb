@@ -11,7 +11,6 @@ template 'index.html' do
 end
 
 web_app 'apache-green' do
-  server_name '192.168.100.102'
-  server_aliases ['192.168.100.103']
+  server_name '192.168.100.103'
   docroot '/var/www'
 end
