@@ -61,6 +61,15 @@ Vagrant.configure("2") do |config|
     nodeconfig.vm.hostname = 'jenkins.box'
     nodeconfig.vm.network :private_network, ip: '192.168.100.104'
     nodeconfig.vm.provision :chef_solo do |chef|
+      chef.json = {
+          'java' => {
+              'install_flavor' => 'oracle',
+              'jdk_version' => '8',
+              'oracle' => {
+                  'accept_oracle_download_terms' => true
+              }
+          }
+      }
       chef.add_recipe 'java'
       chef.add_recipe 'jenkins-nice'
     end

@@ -1,6 +1,6 @@
 # vagrant-test
 
-## Task
+## Exam
 
 1. Create vagrant file having 4 linux machines. (centos)
 
@@ -22,8 +22,8 @@
 ### Some details
 
 0. VirtualBox Vagrant provider is used and hardcoded into Vagrantfile.
-1. LB running on http://192.168.100.103
-2. Jenkins running on http://192.168.100.104
+1. LB running on [http://192.168.100.103](http://192.168.100.103). Round-robin balancing is used.
+2. Jenkins running on [http://192.168.100.104](http://192.168.100.104)
 3. Jenkins credentials are admin/Passw0rd
 4. Solution cookbooks are placed in `cookbooks/apache-blue`, `cookbooks/apache-green`, `cookbooks/haproxy-lb` and `cookbooks/jenkins-nice` respectively. ~~I've should used Berksfile for proper dependency management but I've realised it when I've done everything.~~
 
@@ -56,3 +56,13 @@
 12. Jenkins password is hardcoded to cookbook.
 
 13. I've spent around of 5 hours of doing this, most of the time figuring out how to properly make Chef and Vagrant work together and waiting for `vagrant reload` and `vagrant provision` on my old laptop. I guess it could be done in way way easier using docker-compose. Cookbooks and integration between Chef and Vagrant are very poorly documented, as for me. They may be good for power users, but not for newcomers who have no idea of how to use those "recipes".
+
+14. Jenkins is not secured at all.
+
+15. Network design is poor.
+
+16. Jenkins plugin installation took a huge time and proved to be errorneus sometimes ([https://github.com/chef-cookbooks/jenkins/issues/534](https://github.com/chef-cookbooks/jenkins/issues/534) and related issues)
+
+17. Vagrant boxes are not ephemeral (or I didn't figured how to make them so), and if installation (for Jenkins) was screwed, you have to do `vagrant reload` and `vagrant provision` again and again. Took a huge chunk of time just to watch at the outputs.
+
+18. LB IP hardcoded to Jenkins job xml. Templating could be used here.

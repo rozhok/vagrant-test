@@ -1,28 +1,31 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.26">
-    <actions/>
-    <description></description>
-    <keepDependencies>false</keepDependencies>
-    <properties>
-        <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-            <triggers>
-                <hudson.triggers.TimerTrigger>
-                    <spec>H H(0-6) * * *</spec>
-                </hudson.triggers.TimerTrigger>
-            </triggers>
-        </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-    </properties>
-    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.58">
-        <script>node {
-            def server = sh returnStdout: true, script: &apos;curl -s 192.168.100.101 | grep server&apos;
-            if (server.contains(&apos;2&apos;)) {
-            currentBuild.result = &apos;FAILED&apos;
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.TimerTrigger>
+          <spec>H H(0-6) * * *</spec>
+        </hudson.triggers.TimerTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.59">
+    <script>
+    node {
+      stage(&apos;check&apos;) {
+        def server = sh returnStdout: true, script: &apos;curl -s 192.168.100.103 | grep server&apos;
+        if (server.contains(&apos;2&apos;)) {
+            currentBuild.result = &apos;FAILED&apos;;
             error(&apos;BUILD FAILED&apos;)
-            }
-            }
-        </script>
-        <sandbox>true</sandbox>
-    </definition>
-    <triggers/>
-    <disabled>false</disabled>
+        }
+      }
+    }
+    </script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
 </flow-definition>
